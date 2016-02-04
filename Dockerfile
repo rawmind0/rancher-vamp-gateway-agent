@@ -4,7 +4,18 @@ MAINTAINER Raul Sanchez <rawmind@gmail.com>
 #Set environment
 ENV VAMP_VERSION=0.8.2 \
     VAMP_HOME=/opt/vamp \
+    GOROOT=/usr/lib/go \
+    GOPATH=/opt/src \
+    GOBIN=/gopath/bin 
 ENV VAMP_RELEASE=vamp-gateway-agent_${VAMP_VERSION}_linux_amd64.zip
+
+# Install compile and install vamp-gateawy-agent
+RUN apk add --update git && \
+    mkdir -p /opt/src; cd /opt/src && \
+    git clone -b ${VAMP_VERSION} https://github.com/magneticio/vamp-gateway-agent.git && \
+    tar xzf vamp-gateway-agent/1.6.3/alpine/3.3/vamp.tar.gz -C /opt && \
+    rm -rf /opt/src/vamp-gateway-agent && \
+    apk del git
 
 # Install haproxy
 RUN apk --update add musl-dev linux-headers curl gcc pcre-dev make zlib-dev && \
@@ -18,12 +29,6 @@ RUN apk --update add musl-dev linux-headers curl gcc pcre-dev make zlib-dev && \
     apk del musl-dev linux-headers curl gcc pcre-dev make zlib-dev && \
     apk add musl pcre zlib && \
     rm /var/cache/apk/*
-
-# Install vamp-gateway-agent
-RUN mkdir -p ${VAMP_HOME}/log && cd ${VAMP_HOME} && \
-    wget https://bintray.com/artifact/download/magnetic-io/downloads/vamp-gateway-agent/${VAMP_RELEASE} && \
-    unzip ${VAMP_RELEASE} && rm ${VAMP_RELEASE} && \
-    chmod 755 vamp-gateway-agent
 
 # Add start.sh 
 ADD start.sh /usr/bin/start.sh

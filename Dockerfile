@@ -30,7 +30,7 @@ RUN apk --update add musl-dev linux-headers curl gcc pcre-dev make zlib-dev && \
     apk add musl pcre zlib && \
     rm /var/cache/apk/*
 
-# Add start.sh 
+# Add start.sh
 ADD start.sh /usr/bin/start.sh
 RUN chmod +x /usr/bin/*.sh 
 

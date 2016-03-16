@@ -2,7 +2,7 @@ FROM rawmind/rancher-base:0.0.2-1
 MAINTAINER Raul Sanchez <rawmind@gmail.com>
 
 #Set environment
-ENV VAMP_VERSION=0.8.2 \
+ENV VAMP_VERSION=0.8.4 \
     VAMP_HOME=/opt/vamp \
     GOROOT=/usr/lib/go \
     GOPATH=/opt/src \
